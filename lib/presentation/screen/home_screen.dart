@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
               ),
               SliverToBoxAdapter(
                 child: ExperienceSection1(
-                  currentXP: 1500,
+                  currentXP: 100,
                   nextLevelXP: 9000,
                   targetLevel: 3,
                 ),
