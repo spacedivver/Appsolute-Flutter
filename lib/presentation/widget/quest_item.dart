@@ -641,3 +641,4 @@ Widget _buildBarChart(String label, int value, Color color) {
     ],
   );
 }
+
