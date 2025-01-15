@@ -159,7 +159,7 @@ class ExperienceSection2 extends StatelessWidget {
                     child: const Row(
                       children: [
                         Icon(
-                          Icons.info_outline,
+                          Icons.arrow_upward,
                           color: Color(0xFF1073F4),
                           size: 12,
                         ),

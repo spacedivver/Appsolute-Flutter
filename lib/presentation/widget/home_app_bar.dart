@@ -59,8 +59,6 @@ class HomeAppBar extends StatelessWidget {
               },
               icon: SvgPicture.asset(
                 'assets/icons/notification.svg',
-                width: 24,
-                height: 24,
               ),
             ),
           ),
