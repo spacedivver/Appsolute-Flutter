@@ -44,61 +44,67 @@ class QuestItem extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            title,
-                            style: const TextStyle(
-                              color: Color(0xFF121212),
-                              fontSize: 20,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w700,
-                              height: 1,
-                            ),
+                    // Leader Image
+                    Image.asset(
+                      leader
+                          ? 'assets/images/leader.png'
+                          : 'assets/images/role.png',
+                      width: 40,
+                      height: 40,
+                    ),
+
+                    // Title with spacing
+                    const SizedBox(height: 10),
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        color: Color(0xFF121212),
+                        fontSize: 20,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+
+                    // Divider line
+                    const SizedBox(height: 14),
+                    Image.asset(
+                      'assets/images/line.png',
+                      width: 309,
+                      fit: BoxFit.fitWidth,
+                    ),
+
+                    // Grade Image
+                    const SizedBox(height: 11),
+                    Image.asset(
+                      _getGradeImage(grade),
+                      width: 309,
+                      height: 26,
+                      fit: BoxFit.contain,
+                    ),
+
+                    // More Button
+                    const SizedBox(height: 22),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _showBottomSheet(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFDEE2E6),
+                          minimumSize: const Size.fromHeight(40),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Image.asset(
-                          leader
-                              ? 'assets/images/leader.png'
-                              : 'assets/images/role.png',
-                          width: 40,
-                          height: 40,
-                        ),
-                        Image.asset(
-                          _getGradeImage(grade),
-                          width: 40,
-                          height: 40,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () {
-                        _showBottomSheet(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        minimumSize: const Size.fromHeight(40),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: const Text(
-                        "더보기",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w600,
+                        child: const Text(
+                          "더보기",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontFamily: 'Pretendard',
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
@@ -157,7 +163,9 @@ class QuestItem extends StatelessWidget {
                     topRight: Radius.circular(20),
                   ),
                 ),
-                child: leader ? _buildLeaderBottomSheet(context) : _buildMemberBottomSheet(context),
+                child: leader
+                    ? _buildLeaderBottomSheet(context)
+                    : _buildMemberBottomSheet(context),
               ),
             ),
           ],
@@ -168,15 +176,13 @@ class QuestItem extends StatelessWidget {
 
   Widget _buildMemberBottomSheet(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.only(top: 21, left: 22, right: 22, bottom: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Image.asset(
-            leader
-                ? 'assets/images/leader.png'
-                : 'assets/images/role.png',
+            leader ? 'assets/images/leader.png' : 'assets/images/role.png',
             width: 100,
             height: 100,
           ),
@@ -338,9 +344,7 @@ class QuestItem extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Image.asset(
-              leader
-                  ? 'assets/images/leader.png'
-                  : 'assets/images/role.png',
+              leader ? 'assets/images/leader.png' : 'assets/images/role.png',
               width: 100,
               height: 100,
             ),
@@ -573,6 +577,7 @@ class QuestItem extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildDateButton(String date, bool isSelected) {
     return Container(
       margin: const EdgeInsets.only(right: 8),
@@ -594,6 +599,7 @@ class QuestItem extends StatelessWidget {
     );
   }
 }
+
 Widget _buildBarChart(String label, int value, Color color) {
   return Row(
     children: [
