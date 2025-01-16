@@ -1,3 +1,4 @@
+import 'package:appsolute_android/presentation/widget/custom_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -82,40 +83,18 @@ class _PreviousYearExperienceSectionState
                 child: Column(
                   children: [
                     Container(
-                      height: 36,
-                      decoration: ShapeDecoration(
-                        color: const Color(0xFFE9ECEF),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(999),
+                        height: 36,
+                        decoration: ShapeDecoration(
+                          color: const Color(0xFFE9ECEF),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(999),
+                          ),
                         ),
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: widget.lastYearXP,
-                            child: Container(
-                              decoration: ShapeDecoration(
-                                color: const Color(0xFFFFA800),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(999),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            '${progressPercentage.toStringAsFixed(0)}%',
-                            style: const TextStyle(
-                              color: Color(0xFFFF8A00),
-                              fontSize: 16,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w700,
-                              height: 1,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                        child: CustomProgressBar(
+                          numerator: widget.lastYearXP,
+                          denominator: widget.nextLevelXP,
+                          progressColor: const Color(0xFFFF9500),
+                        )),
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 6),
                       child: Row(

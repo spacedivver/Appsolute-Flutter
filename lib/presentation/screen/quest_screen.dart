@@ -1,4 +1,6 @@
 import 'package:appsolute_android/constants/theme.dart';
+import 'package:appsolute_android/domain/model/leader_quest.dart';
+import 'package:appsolute_android/presentation/controller/user_info_controller.dart';
 import 'package:appsolute_android/presentation/widget/department_item.dart';
 import 'package:appsolute_android/presentation/widget/leader_item.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +8,8 @@ import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:scroll_date_picker/scroll_date_picker.dart';
 import '../controller/department_quest_controller.dart';
-import '../widget/quest_item.dart';
+
+import '../controller/leader_quest_controller.dart';
 import '../widget/week_selector.dart';
 import '../widget/year_month_selector.dart';
 
@@ -22,12 +25,23 @@ class _QuestScreenState extends State<QuestScreen> {
   int _selectedWeek = 0;
   final DepartmentQuestController _departmentQuestController =
       Get.put(DepartmentQuestController());
+  final LeaderQuestController _leaderQuestController =
+      Get.put(LeaderQuestController());
+  final UserInfoController _userInfoController = Get.put(UserInfoController());
 
   @override
   void initState() {
     super.initState();
     _initializeSelectedWeek();
-    _fetchDepartmentQuest(); // API 호출
+    _fetchDepartmentQuest();
+    _fetchLeaderQuests();
+    // API 호출
+  }
+
+  void _fetchLeaderQuests() async {
+    final userId = _userInfoController.userId.value; // 실제 사용자 ID로 변경
+    final month = _selectedDate.month;
+    await _leaderQuestController.fetchLeaderQuests(userId, month);
   }
 
   void _initializeSelectedWeek() {
@@ -232,10 +246,10 @@ class _QuestScreenState extends State<QuestScreen> {
 
     return Scaffold(
       backgroundColor: AppTheme.blue50,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Stack(
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: Stack(
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.only(
@@ -280,40 +294,69 @@ class _QuestScreenState extends State<QuestScreen> {
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 31, left: 20, right: 20),
-              child: Column(
-                children: [
-                  Obx(() {
-                    return SizedBox(
-                      height: 300,
-                      child: ListView.builder(
-                        itemCount:
-                            _departmentQuestController.departmentQuests.length,
-                        itemBuilder: (context, index) {
-                          final quest = _departmentQuestController
-                              .departmentQuests[index];
-                          return DepartmentItem(
-                            departmentGroupName: quest.departmentGroupName,
-                            departmentName: quest.departmentName,
-                            status: quest.departmentGroupQuestStatus,
-                            experienceMessage: '현재 경험치: ${quest.nowXP}',
-                          );
-                        },
-                      ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.only(top: 31, left: 20, right: 20),
+            sliver: Obx(() {
+              return SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    final quest =
+                        _departmentQuestController.departmentQuests[index];
+                    return Column(
+                      children: [
+                        DepartmentItem(
+                          departmentGroupName: quest.departmentGroupName,
+                          departmentName: quest.departmentName,
+                          status: quest.nowXP == 0
+                              ? 'Min'
+                              : (quest.nowXP <= 40 ? 'Mid' : 'Max'),
+                          experienceMessage: quest.nowXP == 0
+                              ? '경험치가 아직 그대로에요!'
+                              : '경험치가 ${quest.nowXP}만큼 상승했어요!',
+                          departmentGroupQuestId: quest.departmentGroupQuestId,
+                        ),
+                        if (index ==
+                            _departmentQuestController.departmentQuests.length -
+                                1)
+                          const SizedBox(height: 16),
+                        const SizedBox(height: 16),
+                      ],
                     );
-                  }),
-                  const SizedBox(height: 16),
-                  const LeaderItem(
-                    questName: '물류센터 대량 입고검수 특근',
-                    status: 'MAX',
-                    experienceMessage: 'sss',
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
+                  },
+                  childCount:
+                      _departmentQuestController.departmentQuests.length,
+                ),
+              );
+            }),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            sliver: Obx(() {
+              if (_leaderQuestController.isLoading.value) {
+                return const SliverToBoxAdapter(
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
+
+              return SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    final item = _leaderQuestController.leaderQuests[index];
+                    return LeaderItem(
+                      questName: item.questName,
+                      status: item.questStatus,
+                      experienceMessage: item.questStatus == 'Min'
+                          ? '경험치가 아직 그대로에요!'
+                          : '경험치가 ${item.grantedPoint}만큼 상승했어요!',
+                    );
+                  },
+                  childCount: _leaderQuestController.leaderQuests.length,
+                ),
+              );
+            }),
+          ),
+        ],
       ),
     );
   }

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 import '../../constants/theme.dart';
+import '../controller/leader_quest_controller.dart';
 
 class LeaderItem extends StatelessWidget {
-  final String questName; // 부서 이름
+  final String questName;
 
-  final String status; // 상태
-  final String experienceMessage; // 경험치 메시지
+  final String status;
+  final String experienceMessage;
 
   const LeaderItem({
     super.key,
@@ -115,9 +116,13 @@ class LeaderItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        experienceMessage, // 동적으로 바뀌는 경험치 메시지
-                        style: const TextStyle(
-                          color: Color(0xFF54BF00),
+                        experienceMessage,
+                        style: TextStyle(
+                          color: status == 'Min'
+                              ? const Color(0xFF70DD02)
+                              : status == 'Med'
+                                  ? const Color(0xFFFF8A00)
+                                  : const Color(0xFFFF3131),
                           fontSize: 16,
                           fontFamily: 'Pretendard',
                           fontWeight: FontWeight.w600,
@@ -128,7 +133,11 @@ class LeaderItem extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 6),
                         decoration: ShapeDecoration(
-                          color: const Color(0xFF70DD02),
+                          color: status == 'Min'
+                              ? const Color(0xFF70DD02)
+                              : status == 'Med'
+                                  ? const Color(0xFFFF8A00)
+                                  : const Color(0xFFFF3131),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5)),
                         ),

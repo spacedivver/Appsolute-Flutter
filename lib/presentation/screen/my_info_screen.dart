@@ -9,200 +9,207 @@ class MyInfoScreen extends GetView<UserInfoController> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Container(
-        clipBehavior: Clip.antiAlias,
-        decoration: const BoxDecoration(color: Color(0xFFE7F1FE)),
-        child: Obx(() {
-          if (controller.isLoading.value) {
-            return const Center(child: CircularProgressIndicator());
-          }
+    return Scaffold(
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-          final userInfo = controller.userInfo.value;
-          if (userInfo == null) {
-            return const Center(child: Text('사용자 정보를 불러올 수 없습니다.'));
-          }
+        final userInfo = controller.userInfo.value;
+        if (userInfo == null) {
+          return const Center(child: Text('사용자 정보를 불러올 수 없습니다.'));
+        }
 
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 257,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: double.infinity,
-                      height: 44,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 29,
-                            height: 32,
-                            child: IconButton(
-                              padding: EdgeInsets.zero,
-                              icon: SvgPicture.asset(
-                                'assets/icons/backarrow_blue.svg',
-                              ),
-                              onPressed: () => Get.back(),
-                            ),
-                          ),
-                          // Text(
-                          //   '$userType 로그인',
-                          //   textAlign: TextAlign.center,
-                          //   style: const TextStyle(
-                          //     color: AppTheme.blue500,
-                          //     fontSize: 22,
-                          //     fontFamily: 'Pretendard',
-                          //     fontWeight: FontWeight.w700,
-                          //   ),
-                          // ),
-                          const SizedBox(
-                            width: 29,
-                            height: 32,
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Profile image and edit button
-                    SizedBox(
-                      width: 133,
-                      height: 133,
-                      child: Stack(
-                        children: [
-                          Container(
-                            width: 133,
-                            height: 133,
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          Positioned(
-                            left: 5,
-                            top: 5,
-                            child: Container(
-                              width: 122,
-                              height: 122,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  image: NetworkImage(userInfo.characterImage ??
-                                      "https://via.placeholder.com/122x122"),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            right: 5.5,
-                            bottom: 6,
-                            child: GestureDetector(
-                              onTap: () {
-                                Get.to(() => EditInfoScreen());
-                              },
-                              child: Container(
-                                width: 35,
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(885.35),
-                                ),
-                                child: const Icon(Icons.edit, size: 20),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 25),
-
-                    // Name and ID
-                    Column(
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 44,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          userInfo.userName,
-                          style: const TextStyle(
-                            color: Color(0xFF121212),
-                            fontSize: 24,
-                            fontFamily: 'Pretendard',
-                            fontWeight: FontWeight.w700,
+                        SizedBox(
+                          width: 29,
+                          height: 32,
+                          child: IconButton(
+                            padding: EdgeInsets.zero,
+                            icon: SvgPicture.asset(
+                              'assets/icons/backarrow_blue.svg',
+                            ),
+                            onPressed: () => Get.back(),
                           ),
                         ),
-                        const SizedBox(height: 13),
-                        Text(
-                          '사번: ${userInfo.employeeNumber}',
-                          style: const TextStyle(
-                            color: Color(0xFF121212),
-                            fontSize: 18,
-                            fontFamily: 'Pretendard',
-                            fontWeight: FontWeight.w400,
-                          ),
+                        // Text(
+                        //   '$userType 로그인',
+                        //   textAlign: TextAlign.center,
+                        //   style: const TextStyle(
+                        //     color: AppTheme.blue500,
+                        //     fontSize: 22,
+                        //     fontFamily: 'Pretendard',
+                        //     fontWeight: FontWeight.w700,
+                        //   ),
+                        // ),
+                        const SizedBox(
+                          width: 29,
+                          height: 32,
                         ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-
-              // Information section
-              Positioned(
-                left: 0,
-                top: 369,
-                right: 0,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildInfoRow('소속', userInfo.departmentName),
-                    const SizedBox(height: 32),
-                    _buildInfoRow('직무그룹', userInfo.departmentGroupName),
-                    const SizedBox(height: 32),
-                    _buildInfoRow('레벨', userInfo.levelName),
-                    const SizedBox(height: 32),
-                    Container(
-                      width: double.infinity,
-                      height: 18,
-                      decoration: const BoxDecoration(color: Color(0xFFDCEBFF)),
-                    ),
-                    const SizedBox(height: 32),
-                    _buildInfoRow('아이디', userInfo.userId),
-                    const SizedBox(height: 32),
-                    _buildPasswordRow(),
-                    const SizedBox(height: 54),
-
-                    // Logout button
-                    Container(
-                      width: double.infinity,
-                      height: 51,
-                      decoration: ShapeDecoration(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                // Profile image and edit button
+                SizedBox(
+                  width: 133,
+                  height: 133,
+                  child: Stack(
+                    children: [
+                      Container(
+                        width: 133,
+                        height: 133,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
                         ),
                       ),
-                      child: const Center(
-                        child: Text(
-                          '로그아웃',
-                          style: TextStyle(
-                            color: Color(0xFF121212),
-                            fontSize: 19,
-                            fontFamily: 'Pretendard',
-                            fontWeight: FontWeight.w600,
+                      Positioned(
+                        left: 5,
+                        top: 5,
+                        child: Container(
+                          width: 122,
+                          height: 122,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: Image.asset(
+                                'assets/images/character1.png',
+                              ).image,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
+                      Positioned(
+                        right: 5.5,
+                        bottom: 6,
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.to(() => EditInfoScreen());
+                          },
+                          child: Container(
+                            width: 35,
+                            height: 35,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(885.35),
+                            ),
+                            child: const Icon(Icons.edit, size: 20),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 25),
+
+                // Name and ID
+                Column(
+                  children: [
+                    Text(
+                      userInfo.userName,
+                      style: const TextStyle(
+                        color: Color(0xFF121212),
+                        fontSize: 24,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 13),
+                    Text(
+                      '사번: ${userInfo.employeeNumber}',
+                      style: const TextStyle(
+                        color: Color(0xFF121212),
+                        fontSize: 18,
+                        fontFamily: 'Pretendard',
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ],
                 ),
-              ),
-            ],
-          );
-        }),
-      ),
+              ],
+            ),
+            const SizedBox(height: 32),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Column(
+                    children: [
+                      _buildInfoRow('소속', userInfo.departmentName),
+                      const SizedBox(height: 32),
+                      _buildInfoRow('직무그룹', userInfo.departmentGroupName),
+                      const SizedBox(height: 32),
+                      _buildInfoRow('레벨', userInfo.levelName),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 32),
+                Container(
+                  width: double.infinity,
+                  height: 18,
+                  decoration: const BoxDecoration(color: Color(0xFFDCEBFF)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 32),
+                      _buildInfoRow('아이디', userInfo.userId),
+                      const SizedBox(height: 32),
+                      _buildPasswordRow(),
+                      const SizedBox(height: 54),
+                    ],
+                  ),
+                ),
+
+                // Logout button
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Container(
+                    width: double.infinity,
+                    height: 51,
+                    decoration: ShapeDecoration(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        '로그아웃',
+                        style: TextStyle(
+                          color: Color(0xFF121212),
+                          fontSize: 19,
+                          fontFamily: 'Pretendard',
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      }),
     );
   }
 

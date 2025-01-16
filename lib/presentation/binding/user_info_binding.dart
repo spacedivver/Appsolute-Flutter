@@ -10,6 +10,8 @@ import 'package:appsolute_android/presentation/controller/evaluation_controller.
 import 'package:appsolute_android/presentation/controller/project_controller.dart';
 import 'package:appsolute_android/presentation/controller/user_info_controller.dart';
 import 'package:get/get.dart';
+import '../../data/service/leader_quest_service.dart';
+import '../controller/leader_quest_controller.dart';
 import '../controller/login_controller.dart';
 import '../../data/service/auth_service.dart';
 
@@ -26,5 +28,7 @@ class UserInfoBinding implements Bindings {
     Get.put(EvaluationController());
     Get.put(DepartmentQuestService());
     Get.put(DepartmentQuestController());
+    Get.put(LeaderQuestService());
+    Get.put(LeaderQuestController());
   }
 }

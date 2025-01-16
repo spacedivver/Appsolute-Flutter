@@ -22,4 +22,19 @@ class DepartmentQuestService extends GetxService {
       throw Exception('Failed to fetch department quest');
     }
   }
+
+  Future<Map<String, dynamic>> fetchDepartmentQuestDetail(
+      int departmentGroupQuestId, String? jwtToken) async {
+    final response = await http.get(
+      Uri.parse('$serverUrl/department-quest/$departmentGroupQuestId'),
+      headers: {
+        'Authorization': 'Bearer $jwtToken',
+      },
+    );
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to fetch department quest');
+    }
+  }
 }

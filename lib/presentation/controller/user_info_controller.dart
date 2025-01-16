@@ -44,4 +44,23 @@ class UserInfoController extends GetxController {
   void saveUserId(String id) {
     userId.value = id;
   }
+
+  int getLevelId(String levelName) {
+    final levelInfo = LEVEL.firstWhere(
+      (level) => level['levelName'] == levelName,
+      orElse: () => <String, Object>{},
+    );
+
+    return levelInfo['levelId'] as int;
+  }
+
+  /// 레벨 이름을 기반으로 requiredPoint를 반환
+  int getRequiredPoint(String levelName) {
+    final levelInfo = LEVEL.firstWhere(
+      (level) => level['levelName'] == levelName,
+      orElse: () => <String, Object>{},
+    );
+
+    return levelInfo['requiredPoint'] as int;
+  }
 }

@@ -75,23 +75,62 @@ class LevelSection extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  child: const Text(
-                    '레벨 가이드',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontFamily: 'Pretendard',
-                      fontWeight: FontWeight.w600,
-                      height: 1,
-                    ),
-                  ),
+                  child: const LevelGuideButton(),
                 ),
               ],
             ),
           ),
         ),
       ],
+    );
+  }
+}
+
+class LevelGuideButton extends StatelessWidget {
+  const LevelGuideButton({super.key});
+
+  void _showGuideModal(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: GestureDetector(
+            onTap: () => Navigator.pop(context), // 아무 곳이나 탭하면 닫힘
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+                child: Image(
+                  image: AssetImage('assets/images/guide.png'),
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _showGuideModal(context),
+      child: const Text(
+        '레벨 가이드',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 12,
+          fontFamily: 'Pretendard',
+          fontWeight: FontWeight.w600,
+          height: 1,
+        ),
+      ),
     );
   }
 }

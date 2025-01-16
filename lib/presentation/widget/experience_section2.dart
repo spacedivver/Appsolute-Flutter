@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../constants/theme.dart';
+import 'custom_progress_bar.dart';
 
 class ExperienceSection2 extends StatelessWidget {
   final int thisYearTotalXP;
@@ -78,32 +79,10 @@ class ExperienceSection2 extends StatelessWidget {
                         borderRadius: BorderRadius.circular(999),
                       ),
                     ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: thisYearTotalXP,
-                          child: Container(
-                            decoration: ShapeDecoration(
-                              color: AppTheme.orange1,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(999),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Text(
-                          '${thisYearTotalXP}XP',
-                          style: const TextStyle(
-                            color: AppTheme.orange1,
-                            fontSize: 16,
-                            fontFamily: 'Pretendard',
-                            fontWeight: FontWeight.w700,
-                            height: 1,
-                          ),
-                        ),
-                      ],
-                    ),
+                    child: CustomProgressBar(
+                        numerator: thisYearTotalXP,
+                        denominator: 9000,
+                        progressColor: const Color(0xFFFF9500)),
                   ),
 
                   // XP 레벨 표시

@@ -2,14 +2,16 @@
 import 'package:appsolute_android/presentation/controller/user_info_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../constants/string_constant.dart';
 import '../../constants/theme.dart';
+import '../../domain/model/user_info.dart';
 import '../widget/experience_section1.dart';
 import '../widget/experience_section2.dart';
 import '../widget/home_app_bar.dart';
 import '../widget/level_section.dart';
 import '../widget/experience_section3.dart';
-import '../widget/yearly_experience_section.dart';
 import '../widget/previous_year_experience_section.dart';
+import '../widget/yearly_experience_section.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -32,6 +34,8 @@ class HomeScreen extends StatelessWidget {
         if (userInfo == null) {
           return const Center(child: Text('No user data available.'));
         }
+        final levelId = controller.getLevelId(userInfo.levelName);
+        final requiredPoint = controller.getRequiredPoint(userInfo.levelName);
 
         return Stack(
           children: [
@@ -41,9 +45,19 @@ class HomeScreen extends StatelessWidget {
                   child: Stack(
                     children: [
                       LevelSection(
-                        levelImage: 'assets/images/level1.png',
-                        level: 1, // Example static value, update if needed
-                        levelName: userInfo.levelName,
+                        levelImage: 'assets/images/level$levelId.png',
+                        level: levelId,
+                        levelName: levelId == 1
+                            ? '꿈틀이 씨앗'
+                            : levelId == 2
+                                ? '자라나는 새싹'
+                                : levelId == 3
+                                    ? '쑥쑥 잎사귀'
+                                    : levelId == 4
+                                        ? '푸룻푸룻 초목'
+                                        : levelId == 5
+                                            ? '우뚝 나무'
+                                            : '만개 꽃나무',
                       ),
                       const HomeAppBar(
                         characterNumber:
@@ -62,7 +76,8 @@ class HomeScreen extends StatelessWidget {
                     nextLevelXP: userInfo.thisYearTotalXP +
                         userInfo.lastYearTotalXP +
                         userInfo.nextLevelRemainXP,
-                    targetLevel: 3, // Compute from level info dynamically
+                    targetLevel:
+                        levelId + 1, // Compute from level info dynamically
                   ),
                 ),
                 const SliverToBoxAdapter(
