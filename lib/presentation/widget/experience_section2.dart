@@ -4,15 +4,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../constants/theme.dart';
 
 class ExperienceSection2 extends StatelessWidget {
-  final int currentXP;
-  final int nextLevelXP;
-  final int targetLevel;
+  final int thisYearTotalXP;
 
   const ExperienceSection2({
     super.key,
-    required this.currentXP,
-    required this.nextLevelXP,
-    required this.targetLevel,
+    required this.thisYearTotalXP,
   });
 
   @override
@@ -49,7 +45,7 @@ class ExperienceSection2 extends StatelessWidget {
                     ),
                     const SizedBox(width: 7),
                     Text(
-                      '${currentXP}XP',
+                      '${thisYearTotalXP}XP',
                       style: const TextStyle(
                         color: Color(0xFF212529),
                         fontSize: 20,
@@ -85,7 +81,7 @@ class ExperienceSection2 extends StatelessWidget {
                     child: Row(
                       children: [
                         Expanded(
-                          flex: currentXP,
+                          flex: thisYearTotalXP,
                           child: Container(
                             decoration: ShapeDecoration(
                               color: AppTheme.orange1,
@@ -97,7 +93,7 @@ class ExperienceSection2 extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         Text(
-                          '${currentXP}XP',
+                          '${thisYearTotalXP}XP',
                           style: const TextStyle(
                             color: AppTheme.orange1,
                             fontSize: 16,

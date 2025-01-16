@@ -11,7 +11,8 @@ class HomeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SafeArea(
+        child: Container(
       height: 44,
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
@@ -64,6 +65,6 @@ class HomeAppBar extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 }

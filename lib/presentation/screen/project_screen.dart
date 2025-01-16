@@ -1,12 +1,22 @@
+import 'package:appsolute_android/presentation/controller/user_info_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../widget/custom_app_bar.dart';
 import '../widget/project_item.dart';
+import '../controller/project_controller.dart';
 
 class ProjectScreen extends StatelessWidget {
-  const ProjectScreen({super.key});
+  final ProjectController projectController = Get.find<ProjectController>();
+  final UserInfoController userInfoController = Get.find<UserInfoController>();
+
+  ProjectScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    String userId = userInfoController.userId.value;
+
+    projectController.fetchUserProjects(userId);
+
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -21,33 +31,40 @@ class ProjectScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
-          child: CustomScrollView(
-            slivers: [
-              const SliverToBoxAdapter(
-                child: CustomAppBar(title: '전사 프로젝트 내역'),
-              ),
-              SliverPadding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      return const Padding(
-                        padding: EdgeInsets.only(bottom: 16),
-                        child: ProjectItem(
-                          title: '전자결재 시스템 프로젝트',
-                          content: '페이퍼리스 업무 체계 구축',
-                          date: '2025.01.09',
-                          xp: 600,
-                        ),
-                      );
-                    },
-                    childCount: 10,
+          child: Obx(() {
+            if (projectController.isLoading.value) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            return CustomScrollView(
+              slivers: [
+                const SliverToBoxAdapter(
+                  child: CustomAppBar(title: '전사 프로젝트 내역'),
+                ),
+                SliverPadding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final project = projectController.projects[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: ProjectItem(
+                            title: project.projectName,
+                            content: project.note,
+                            date: '${project.month}.${project.day}', // 날짜 형식 조정
+                            xp: project.grantedPoint,
+                          ),
+                        );
+                      },
+                      childCount: projectController.projects.length,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            );
+          }),
         ),
       ),
     );

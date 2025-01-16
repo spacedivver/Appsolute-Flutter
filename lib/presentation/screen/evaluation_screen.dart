@@ -30,45 +30,64 @@ class _EvaluationScreenState extends State<EvaluationScreen> {
       child: SafeArea(
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          body: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 32, left: 20, right: 20),
-                child: SizedBox(
-                  height: 38,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      YearDropdownButton(
-                        selectedYear: selectedYear,
-                        onYearChanged: (year) {
-                          setState(() {
-                            selectedYear = year;
-                          });
-                        },
-                      ),
-                      const SizedBox(width: 10),
-                      HalfYearToggle(
-                        selectedHalf: selectedHalf,
-                        onHalfYearChanged: (half) {
-                          setState(() {
-                            selectedHalf = half;
-                          });
-                        },
-                      ),
-                    ],
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 32),
+                  child: SizedBox(
+                    height: 38,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        YearDropdownButton(
+                          selectedYear: selectedYear,
+                          onYearChanged: (year) {
+                            setState(() {
+                              selectedYear = year;
+                            });
+                          },
+                        ),
+                        const Spacer(),
+                        HalfYearToggle(
+                          selectedHalf: selectedHalf,
+                          onHalfYearChanged: (half) {
+                            setState(() {
+                              selectedHalf = half;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 28),
-              const EvaluationGradeSection(
-                grade: '골드',
-                experiencePoints: 3600,
-                characterImageUrl: 'https://via.placeholder.com/61x61',
-              ),
-            ],
+                const SizedBox(height: 28),
+                const EvaluationGradeSection(
+                  grade: '골드',
+                  experiencePoints: 3600,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: double.infinity,
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  child: Image.asset(
+                    'assets/images/eval_standard.png',
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

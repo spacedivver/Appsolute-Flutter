@@ -36,6 +36,9 @@ dependencies:
   cupertino_icons: ^1.0.8
   get: ^4.6.6
   flutter_svg: ^2.0.17
+  intl: ^0.20.1
+  scroll_date_picker: ^3.8.0
+  flutter_secure_storage: ^9.2.4
 
 dev_dependencies:
   flutter_test:

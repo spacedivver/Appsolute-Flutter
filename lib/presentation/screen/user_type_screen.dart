@@ -31,7 +31,7 @@ class UserTypeScreen extends StatelessWidget {
                     height: 56,
                     child: ElevatedButton(
                       onPressed: () {
-                        Get.to(() => const LoginScreen(userType: '직원'));
+                        Get.to(() => LoginScreen(userType: '직원'));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppTheme.white1,
@@ -57,7 +57,7 @@ class UserTypeScreen extends StatelessWidget {
                     height: 56,
                     child: ElevatedButton(
                       onPressed: () =>
-                          Get.to(() => const LoginScreen(userType: '관리자')),
+                          Get.to(() => LoginScreen(userType: '관리자')),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppTheme.blue900,
                         shape: RoundedRectangleBorder(

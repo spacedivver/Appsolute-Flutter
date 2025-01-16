@@ -1,3 +1,4 @@
+import 'package:appsolute_android/presentation/binding/login_binding.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'presentation/screen/splash_screen.dart';
@@ -20,9 +21,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       theme: ThemeData(
         fontFamily: 'Pretendard',
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      initialBinding: LoginBinding(),
       builder: (context, child) {
         return GestureDetector(
           onTap: unfocusKeyboard,
