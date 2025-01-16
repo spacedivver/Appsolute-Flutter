@@ -79,14 +79,14 @@ class BoardItem extends StatelessWidget {
                 ),
                 Text(
                   content,
-                  maxLines: 2,
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     color: Color(0xFF495057),
                     fontSize: 16,
                     fontFamily: 'Pretendard',
                     fontWeight: FontWeight.w500,
-                    height: 1.50,
+                    height: 1.5,
                   ),
                 ),
               ],

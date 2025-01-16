@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+
+import '../screen/my_info_screen.dart';
 
 class HomeAppBar extends StatelessWidget {
   final int characterNumber;
@@ -21,20 +24,24 @@ class HomeAppBar extends StatelessWidget {
         children: [
           // 캐릭터 이미지와 MY 텍스트
           Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: ShapeDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(
-                        'assets/images/character$characterNumber.png'),
-                    fit: BoxFit.cover,
-                  ),
-                  shape: const CircleBorder(),
-                ),
-              ),
-              const SizedBox(width: 4),
+              GestureDetector(
+                  onTap: () {
+                    Get.to(() => const MyInfoScreen());
+                  },
+                  child: Container(
+                    width: 44,
+                    height: 44,
+                    decoration: ShapeDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                            'assets/images/character$characterNumber.png'),
+                        fit: BoxFit.cover,
+                      ),
+                      shape: const CircleBorder(),
+                    ),
+                  )),
               const Text(
                 'MY',
                 textAlign: TextAlign.center,

@@ -53,7 +53,8 @@ class ProjectScreen extends StatelessWidget {
                           child: ProjectItem(
                             title: project.projectName,
                             content: project.note,
-                            date: '${project.month}.${project.day}', // 날짜 형식 조정
+                            date:
+                                '${project.month}월 ${project.day}일', // 날짜 형식 조정
                             xp: project.grantedPoint,
                           ),
                         );

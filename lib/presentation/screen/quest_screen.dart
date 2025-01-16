@@ -1,8 +1,11 @@
 import 'package:appsolute_android/constants/theme.dart';
+import 'package:appsolute_android/presentation/widget/department_item.dart';
+import 'package:appsolute_android/presentation/widget/leader_item.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:get/get.dart';
 import 'package:scroll_date_picker/scroll_date_picker.dart';
-
+import '../controller/department_quest_controller.dart';
 import '../widget/quest_item.dart';
 import '../widget/week_selector.dart';
 import '../widget/year_month_selector.dart';
@@ -17,11 +20,14 @@ class QuestScreen extends StatefulWidget {
 class _QuestScreenState extends State<QuestScreen> {
   DateTime _selectedDate = DateTime.now();
   int _selectedWeek = 0;
+  final DepartmentQuestController _departmentQuestController =
+      Get.put(DepartmentQuestController());
 
   @override
   void initState() {
     super.initState();
     _initializeSelectedWeek();
+    _fetchDepartmentQuest(); // API 호출
   }
 
   void _initializeSelectedWeek() {
@@ -59,7 +65,13 @@ class _QuestScreenState extends State<QuestScreen> {
       _selectedDate =
           DateTime(_selectedDate.year, _selectedDate.month + offset, 1);
       _initializeSelectedWeek();
+      _fetchDepartmentQuest(); // 월 변경 시 API 호출
     });
+  }
+
+  void _fetchDepartmentQuest() async {
+    await _departmentQuestController
+        .fetchDepartmentQuest(_selectedDate); // API 호출
   }
 
   void _selectYearMonth() async {
@@ -269,28 +281,34 @@ class _QuestScreenState extends State<QuestScreen> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 16),
+              padding: const EdgeInsets.only(top: 31, left: 20, right: 20),
               child: Column(
                 children: [
-                  QuestItem(
-                    title: '물류센터 대량 입고검수 특근',
-                    role: '개발자',
-                    leader: true,
-                    grade: 1,
-                    onTap: () {
-                      print('1 clicked');
-                    },
-                  ),
+                  Obx(() {
+                    return SizedBox(
+                      height: 300,
+                      child: ListView.builder(
+                        itemCount:
+                            _departmentQuestController.departmentQuests.length,
+                        itemBuilder: (context, index) {
+                          final quest = _departmentQuestController
+                              .departmentQuests[index];
+                          return DepartmentItem(
+                            departmentGroupName: quest.departmentGroupName,
+                            departmentName: quest.departmentName,
+                            status: quest.departmentGroupQuestStatus,
+                            experienceMessage: '현재 경험치: ${quest.nowXP}',
+                          );
+                        },
+                      ),
+                    );
+                  }),
                   const SizedBox(height: 16),
-                  QuestItem(
-                    title: '가나다',
-                    role: '가나',
-                    leader: false,
-                    grade: 1,
-                    onTap: () {
-                      print('2 clicked');
-                    },
-                  ),
+                  const LeaderItem(
+                    questName: '물류센터 대량 입고검수 특근',
+                    status: 'MAX',
+                    experienceMessage: 'sss',
+                  )
                 ],
               ),
             ),

@@ -12,6 +12,26 @@ class EvaluationGradeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String gradeName;
+    switch (grade) {
+      case 'S':
+        gradeName = '플래티넘';
+        break;
+      case 'A':
+        gradeName = '다이아';
+        break;
+      case 'B':
+        gradeName = '골드';
+        break;
+      case 'C':
+        gradeName = '실버';
+        break;
+      case 'D':
+        gradeName = '브론즈';
+        break;
+      default:
+        gradeName = '정보가 없습니다.'; // 기본값
+    }
     return Container(
       width: double.infinity,
       height: 195,
@@ -28,16 +48,21 @@ class EvaluationGradeSection extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
-            width: 86,
-            height: 86,
-            child: Image.asset(
-              'assets/images/eval3.png',
-              width: 86,
-              height: 86,
-              fit: BoxFit.contain,
-            ),
-          ),
+          grade.isEmpty
+              ? const SizedBox(
+                  width: 86,
+                  height: 86,
+                )
+              : SizedBox(
+                  width: 86,
+                  height: 86,
+                  child: Image.asset(
+                    'assets/images/big$grade.png', // grade에 따라 이미지 로드
+                    width: 86,
+                    height: 86,
+                    fit: BoxFit.contain,
+                  ),
+                ),
           const SizedBox(height: 18),
           Column(
             mainAxisSize: MainAxisSize.min,
@@ -45,7 +70,7 @@ class EvaluationGradeSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                '나의 인사평가 등급: $grade',
+                '나의 인사평가 등급 : $gradeName',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,
@@ -57,7 +82,7 @@ class EvaluationGradeSection extends StatelessWidget {
               ),
               const SizedBox(height: 11),
               Text(
-                '획득 경험치: ${experiencePoints}PX',
+                '획득 경험치: ${experiencePoints}XP',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,

@@ -1,4 +1,7 @@
+// file: evaluation_screen.dart
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../controller/evaluation_controller.dart';
 import '../widget/year_dropdown_button.dart';
 import '../widget/half_year_toggle.dart';
 import '../widget/evaluation_grade_section.dart';
@@ -11,8 +14,23 @@ class EvaluationScreen extends StatefulWidget {
 }
 
 class _EvaluationScreenState extends State<EvaluationScreen> {
-  String selectedYear = '2025년';
+  String selectedYear = '2025';
   HalfYear selectedHalf = HalfYear.first;
+
+  late EvaluationController evaluationController;
+
+  @override
+  void initState() {
+    super.initState();
+    evaluationController = Get.put(EvaluationController());
+    _fetchEvaluationData();
+  }
+
+  void _fetchEvaluationData() {
+    final periodType =
+        selectedHalf == HalfYear.first ? "FIRST_HALF" : "SECOND_HALF";
+    evaluationController.fetchEvaluation(selectedYear, periodType);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,10 +62,11 @@ class _EvaluationScreenState extends State<EvaluationScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         YearDropdownButton(
-                          selectedYear: selectedYear,
+                          selectedYear: "$selectedYear년",
                           onYearChanged: (year) {
                             setState(() {
-                              selectedYear = year;
+                              selectedYear = year.replaceAll("년", "");
+                              _fetchEvaluationData();
                             });
                           },
                         ),
@@ -57,6 +76,7 @@ class _EvaluationScreenState extends State<EvaluationScreen> {
                           onHalfYearChanged: (half) {
                             setState(() {
                               selectedHalf = half;
+                              _fetchEvaluationData();
                             });
                           },
                         ),
@@ -65,13 +85,14 @@ class _EvaluationScreenState extends State<EvaluationScreen> {
                   ),
                 ),
                 const SizedBox(height: 28),
-                const EvaluationGradeSection(
-                  grade: '골드',
-                  experiencePoints: 3600,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
+                Obx(() {
+                  return EvaluationGradeSection(
+                    grade: evaluationController.gradeName.value,
+                    experiencePoints:
+                        evaluationController.experiencePoints.value,
+                  );
+                }),
+                const SizedBox(height: 20),
                 Container(
                   width: double.infinity,
                   decoration: ShapeDecoration(
