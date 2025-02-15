@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../constants/theme.dart';
+import 'custom_progress_bar.dart';
+
 class ExperienceSection1 extends StatelessWidget {
   final int currentXP;
   final int nextLevelXP;
@@ -73,40 +76,17 @@ class ExperienceSection1 extends StatelessWidget {
                 children: [
                   // 프로그레스 바
                   Container(
-                    height: 36,
-                    decoration: ShapeDecoration(
-                      color: const Color(0xFFE9ECEF),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(999),
+                      height: 36,
+                      decoration: ShapeDecoration(
+                        color: const Color(0xFFE9ECEF),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(999),
+                        ),
                       ),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: currentXP,
-                          child: Container(
-                            decoration: ShapeDecoration(
-                              color: const Color(0xFF1073F4),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(999),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Text(
-                          '${currentXP}XP',
-                          style: const TextStyle(
-                            color: Color(0xFF1073F4),
-                            fontSize: 16,
-                            fontFamily: 'Pretendard',
-                            fontWeight: FontWeight.w700,
-                            height: 1,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                      child: CustomProgressBar(
+                          numerator: currentXP,
+                          denominator: nextLevelXP,
+                          progressColor: AppTheme.blue500)),
 
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 6),
@@ -156,7 +136,7 @@ class ExperienceSection1 extends StatelessWidget {
                     child: Row(
                       children: [
                         const Icon(
-                          Icons.info_outline,
+                          Icons.arrow_upward,
                           color: Color(0xFF1073F4),
                           size: 12,
                         ),
